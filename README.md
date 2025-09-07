@@ -1,26 +1,34 @@
-# Nallix Terminal Environment
+# Nallix Operating System
 
-Nallix is a lightweight, extensible terminal environment with built-in tools and programming languages. It provides a unified interface for file management, text editing, and programming.
+Nallix is a lightweight, operating system with a built-in terminal environment. It provides core OS functionality along with development tools, file management, and a text editor, all within a Python-based environment.
 
 ## Features
 
-- **Integrated Development Environment**
-  - Built-in text editor (Nalvim)
-  - Assemplex programming language
-  - File system navigation
-  - User management
+- **Core Operating System**
+  - Process management
+  - File system operations
+  - User management and permissions
+  - Terminal interface
 
-- **Key Components**
+- **Development Tools**
+  - Nalvim text editor
+  - Assemplex programming language and VM
+  - File system navigation and management
+  - Scripting capabilities
+
+- **System Components**
   - Terminal shell with command history
   - Persistent user sessions
   - Extensible command system
-  - Cross-platform compatibility
+  - Cross-platform compatibility layer
 
 ## Getting Started
 
 ### Prerequisites
-- Python 3.7+
-- Windows (for full functionality)
+- Python 3.7+ (temporary runtime environment)
+- Windows (primary development platform)
+- 100MB free disk space (minimum)
+- 512MB RAM (minimum)
 
 ### Installation
 1. Clone the repository
@@ -59,25 +67,24 @@ Nallix is a lightweight, extensible terminal environment with built-in tools and
 
 ## Customization
 
-### Configuration Files
-- `~/.nallixrc` - User configuration (not implemented yet)
-- `~/.nalvimrc` - Nalvim configuration (not implemented yet)
-
 ### Environment Variables
 - `NALLIX_HOME` - Base directory for Nallix (default: current directory)
 - `NALLIX_USER` - Default username (default: guest)
 
 ## Development
 
-### Project Structure
+### System Architecture
+
 ```
 Nallix/
-├── bin/                 # Core binaries
-│   ├── Terminal.py      # Main terminal
-│   ├── Assemplex.py     # Assemplex language
-│   └── nalvim.py        # Text editor
-├── Home/               # User home directories
-└── README.md           # This file
+├── bin/                # Core system binaries
+│   ├── Terminal.py     # Main system shell
+│   ├── Assemplex.py    # Assemplex language implementation
+│   └── nalvim.py       # Text editor
+│
+├── Home/              # User home directories
+│   ├── Lasking/       # User directories
+│   └── [username]/    # Other user directories
 ```
 
 ### Building from Source
