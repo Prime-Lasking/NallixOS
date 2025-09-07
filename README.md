@@ -1,33 +1,35 @@
 # Nallix Operating System
 
-Nallix is a lightweight, operating system with a built-in terminal environment. It provides core OS functionality along with development tools, file management, and a text editor, all within a Python-based environment.
+Nallix is a lightweight, Python-based operating system featuring a terminal interface, built-in development tools, file management, and a text editor. It provides a complete computing environment with process management, user sessions, and system utilities.
 
 ## Features
 
-- **Core Operating System**
-  - Process management
-  - File system operations
-  - User management and permissions
-  - Terminal interface
+- **Operating System Core**
+  - Process management and execution
+  - File system with hierarchical directory structure
+  - User account management and authentication
+  - Persistent sessions and system state
+  - Custom shell with command history
+  - System resource management
 
-- **Development Tools**
-  - Nalvim text editor
-  - Assemplex programming language and VM
-  - File system navigation and management
-  - Scripting capabilities
+- **Integrated Development Tools**
+  - Nalvim: Lightweight text editor with vim-like keybindings
+  - Assemplex: Stack-based programming language with VM
+  - File management utilities
+  - Process execution
 
-- **System Components**
-  - Terminal shell with command history
-  - Persistent user sessions
-  - Extensible command system
-  - Cross-platform compatibility layer
+- **System Commands**
+  - File operations: ls, cd, mkdir, rmdir, copy, move, del
+  - Text processing: type, echo
+  - System: cls, help, exit
+  - User management: create user, change user
 
 ## Getting Started
 
 ### Prerequisites
-- Python 3.7+ (temporary runtime environment)
-- Windows (primary development platform)
-- 100MB free disk space (minimum)
+- Python 3.7 or later
+- Windows (primary platform, may work on other OS with modifications)
+- 10MB free disk space
 - 512MB RAM (minimum)
 
 ### Installation
@@ -59,11 +61,19 @@ Nallix is a lightweight, operating system with a built-in terminal environment. 
 - `create user` - Create new user
 - `change user` - Switch user
 - `log out` - Sign out current user
+
+## Documentation
+
+- [Assemplex Language Reference](./bin/ASSEMPLEX_README.md)
+- [Nalvim Editor Guide](./bin/NALVIM_README.md)
+
 ## Customization
 
 ### Environment Variables
 - `NALLIX_HOME` - Base directory for Nallix (default: current directory)
 - `NALLIX_USER` - Default username (default: guest)
+
+## Development
 
 ### System Architecture
 
