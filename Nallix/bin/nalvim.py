@@ -58,11 +58,23 @@ def display_buffer(buffer: List[str], cursor_x: int, cursor_y: int, mode: str, c
     if not command_mode:
         print("WASD: Move | i: Insert | x: Delete | dd: Delete line | :w to save | :q to quit")
 
+# Global variable to store the current file path
+current_file = None
+
 def main():
-    file_path = sys.argv[1] if len(sys.argv) > 1 else None
+    global current_file
+    
+    # Get file path from command line or global variable
+    file_path = sys.argv[1] if len(sys.argv) > 1 else current_file
+    
     if file_path and os.path.exists(file_path):
-        with open(file_path, 'r') as f:
-            buffer = [line.rstrip('\n') for line in f]
+        try:
+            with open(file_path, 'r') as f:
+                buffer = [line.rstrip('\n') for line in f]
+            current_file = os.path.abspath(file_path)
+        except Exception as e:
+            print(f"Error opening file: {e}")
+            buffer = [""]
     else:
         buffer = [""]
 
@@ -79,24 +91,56 @@ def main():
 
         if command_mode:
             if key == '\r':
+                should_exit = False
+                
+                # Handle :q command
                 if command == 'q':
-                    return
-                elif command == 'w' or command == 'wq':
-                    if file_path:
+                    should_exit = True
+                # Handle :w command
+                elif command == 'w':
+                    if current_file:
                         try:
-                            with open(file_path, 'w') as f:
+                            with open(current_file, 'w') as f:
                                 f.write('\n'.join(buffer) + '\n')
-                            print(f"Saved to {file_path}")
-                            if command == 'wq':
-                                return
+                            print(f"Saved to {current_file}")
                         except Exception as e:
                             print(f"Error saving: {e}")
                     else:
-                        print("No filename given.")
+                        print("No filename. Use ':w filename' to save")
+                # Handle :w filename
+                elif command.startswith('w ') and len(command) > 2:
+                    save_path = command[2:].strip()
+                    try:
+                        with open(save_path, 'w') as f:
+                            f.write('\n'.join(buffer) + '\n')
+                        current_file = os.path.abspath(save_path)
+                        print(f"Saved to {current_file}")
+                    except Exception as e:
+                        print(f"Error saving: {e}")
+                # Handle :wq command
+                elif command == 'wq':
+                    if current_file:
+                        try:
+                            with open(current_file, 'w') as f:
+                                f.write('\n'.join(buffer) + '\n')
+                            print(f"Saved to {current_file}")
+                            should_exit = True
+                        except Exception as e:
+                            print(f"Error saving: {e}")
+                    else:
+                        print("No filename. Use ':w filename' to save")
+                # Handle :q! command
                 elif command == 'q!':
-                    return
+                    should_exit = True
+                
+                # Reset command mode
                 command_mode = False
                 command = ""
+                
+                # Exit if needed
+                if should_exit:
+                    return
+                    
                 continue
             elif key == '\x7f':
                 command = command[:-1]
@@ -148,10 +192,14 @@ def main():
                     buffer[cursor_y - 1] += buffer[cursor_y]
                     buffer.pop(cursor_y)
                     cursor_y -= 1
-            else:
-                if key and len(key) == 1 and ord(key) >= 32:
-                    buffer[cursor_y] = buffer[cursor_y][:cursor_x] + key + buffer[cursor_y][cursor_x:]
-                    cursor_x += 1
+            # Handle text input in insert mode
+            if mode == "insert" and key.isprintable() and key not in ['\x1b', '\r']:
+                # Ensure the current line exists in the buffer
+                while len(buffer) <= cursor_y:
+                    buffer.append("")
+                # Insert the character at the current position
+                buffer[cursor_y] = buffer[cursor_y][:cursor_x] + key + buffer[cursor_y][cursor_x:]
+                cursor_x += 1
 
 if __name__ == "__main__":
     try:
