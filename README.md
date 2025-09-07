@@ -59,19 +59,11 @@ Nallix is a lightweight, operating system with a built-in terminal environment. 
 - `create user` - Create new user
 - `change user` - Switch user
 - `log out` - Sign out current user
-
-## Documentation
-
-- [Assemplex Language Reference](./bin/ASSEMPLEX_README.md)
-- [Nalvim Editor Guide](./bin/NALVIM_README.md)
-
 ## Customization
 
 ### Environment Variables
 - `NALLIX_HOME` - Base directory for Nallix (default: current directory)
 - `NALLIX_USER` - Default username (default: guest)
-
-## Development
 
 ### System Architecture
 
