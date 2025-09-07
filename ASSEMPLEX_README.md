@@ -1,28 +1,40 @@
 # Assemplex Programming Language
 
-Assemplex is a simple stack-based programming language with an interactive REPL environment. It's designed for educational purposes and embedded within the Nallix terminal environment.
+Assemplex is a stack-based programming language with a virtual machine, designed for the Nallix environment. It features an interactive REPL and supports file execution, making it ideal for learning and scripting.
 
 ## Features
 
-- Stack-based architecture
-- Simple VM implementation
-- Interactive REPL for testing code
-- File execution capability
-- Basic arithmetic and I/O operations
+- **Stack-Based Architecture**
+  - Simple, intuitive operation model
+  - Easy-to-learn instruction set
+  - Efficient execution
 
-## Usage
+- **Development Tools**
+  - Interactive REPL for testing
+  - File execution support
+  - Debugging capabilities
+
+- **Core Operations**
+  - Arithmetic and logical operations
+  - Stack manipulation
+  - Control flow
+  - I/O operations
+
+## Getting Started
 
 ### Running the REPL
 ```bash
+# Start interactive mode
 assemplex
-# or the shorthand:
+# or use the shorthand:
 asp
 ```
 
 ### Running a Script
 ```bash
+# Execute a script file
 assemplex script.ax
-# or the shorthand:
+# or use the shorthand:
 asp script.ax
 ```
 
