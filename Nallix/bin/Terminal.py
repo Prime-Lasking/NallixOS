@@ -152,28 +152,56 @@ def change_user() -> Tuple[Optional[str], Optional[str]]:
         return None, None
         return None, None
 
-def run_nalvim(file_path=None):
-    """Run the Nalvim text editor from the correct directory context."""
-    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    if project_root not in sys.path:
-        sys.path.insert(0, project_root)
+def run_assemplex(file_path=None):
+    """Run Assemplex code or start the Assemplex REPL."""
+    # Add the parent directory of the current file to the Python path
+    bin_dir = os.path.dirname(os.path.abspath(__file__))
+    if bin_dir not in sys.path:
+        sys.path.insert(0, bin_dir)
 
     try:
-        from Nallix.Home import nalvim
+        if file_path and os.path.exists(file_path):
+            with open(file_path, 'r') as f:
+                source = f.read()
+            from Assemplex import run_vm
+            run_vm(source)
+        else:
+            from Assemplex import main
+            main()
     except ImportError as e:
-        print(f"Error: Could not import nalvim from Home.\nDetails: {e}")
+        print(f"Error: Could not import Assemplex.\nDetails: {e}")
+        import traceback
+        traceback.print_exc()
+    except Exception as e:
+        print(f"Error running Assemplex: {e}")
+        import traceback
+        traceback.print_exc()
+
+def run_nalvim(file_path=None):
+    """Run the Nalvim text editor from the correct directory context."""
+    # Add the parent directory of the current file to the Python path
+    bin_dir = os.path.dirname(os.path.abspath(__file__))
+    if bin_dir not in sys.path:
+        sys.path.insert(0, bin_dir)
+
+    try:
+        import nalvim
+    except ImportError as e:
+        print(f"Error: Could not import nalvim.\nDetails: {e}")
         return
 
-    if file_path:
-        file_path = os.path.abspath(file_path)
-        sys.argv = [sys.argv[0], file_path]
+    # Set the file path as a global variable in the nalvim module
+    if file_path and os.path.exists(file_path):
+        nalvim.current_file = os.path.abspath(file_path)
     else:
-        sys.argv = [sys.argv[0]]
+        nalvim.current_file = None
 
     try:
         nalvim.main()
     except Exception as e:
         print(f"Error running nalvim: {e}")
+        import traceback
+        traceback.print_exc()
 
 def run_shell():
     print("Nallix Terminal (type 'exit' or Ctrl+C to quit)")
@@ -193,7 +221,7 @@ def run_shell():
     def print_help():
         print(f"""Nallix Terminal - Available commands:
   echo [text]
-  ls / cd / pwd / mkdir / rmdir / del / type / copy / move / cls
+  ls / cd / pwd / mkdir / rmdir / touch / del / type / copy / move / cls
   sudo [command]       – run command as root
   create user          – create a new user
   change user          – switch active user
@@ -201,6 +229,7 @@ def run_shell():
   help                 – show this message
   log out              – sign out current user and switch to guest
   exit                 – exit the shell
+  assemplex [file] / asp [file] – run Assemplex code or file
 """)
 
     while True:
@@ -217,7 +246,6 @@ def run_shell():
                 if line.strip().lower() == "exit":
                     print(f"Logging out {username}...")
                     clear_session()
-                    print("Goodbye!")
                     sys.exit(0)
 
                 lines.append(line)
@@ -327,6 +355,17 @@ def run_shell():
                         except Exception as e:
                             print(f"move error: {e}")
 
+                elif cmd == "touch":
+                    if not args:
+                        print("Usage: touch <filename>")
+                        continue
+                    for filename in args:
+                        try:
+                            with open(os.path.join(current_dir, filename), 'a'):
+                                os.utime(os.path.join(current_dir, filename), None)
+                        except Exception as e:
+                            print(f"Error creating file {filename}: {e}")
+
                 elif cmd == "cls":
                     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -337,6 +376,11 @@ def run_shell():
 
                 elif cmd == "help":
                     print_help()
+                    
+                elif cmd in ("assemplex", "asp"):
+                    file_arg = args[0] if args else None
+                    path_arg = os.path.join(current_dir, file_arg) if file_arg else None
+                    run_assemplex(path_arg)
                     
                 elif cmd == "log" and len(args) > 0 and args[0] == "out":
                     if current_user:
