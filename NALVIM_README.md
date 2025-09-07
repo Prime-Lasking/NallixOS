@@ -1,15 +1,29 @@
 # Nalvim Text Editor
 
-Nalvim is a simple, lightweight text editor integrated into the Nallix terminal environment. It provides basic text editing capabilities with a vim-like interface.
+Nalvim is a lightweight, vim-inspired text editor integrated into the Nallix terminal environment. It provides efficient text editing capabilities with a focus on keyboard navigation and modal editing.
 
 ## Features
 
-- Modal editing (Normal/Insert modes)
-- Basic file operations
-- Simple navigation
-- Line operations
-- Syntax highlighting (basic)
-- Persistent cursor position
+- **Modal Editing**
+  - Normal mode for navigation and commands
+  - Insert mode for text input
+  - Visual mode for text selection
+
+- **File Operations**
+  - Open, edit, and save files
+  - Create new files
+  - Auto-indentation
+
+- **Navigation**
+  - Character, word, and line movement
+  - Jump to line numbers
+  - Search functionality
+
+- **Editing**
+  - Copy, cut, and paste
+  - Undo/redo support
+  - Line operations (delete, duplicate, move)
+  - Multiple cursor support
 
 ## Getting Started
 
@@ -20,14 +34,15 @@ nalvim [filename]
 nv [filename]
 ```
 
-If no filename is provided, Nalvim will start with an empty buffer.
+If no filename is provided, Nalvim starts with an empty buffer.
 
 ## Modes
 
 ### Normal Mode (Default)
-This is the default mode when you start Nalvim. Use it for navigation and commands.
+The default mode for navigation and commands. Press `Esc` to return to Normal mode from other modes.
 
 ### Insert Mode
+Enter text at the cursor position. Press `i` to enter Insert mode.
 Enter text input mode. Press `ESC` to return to Normal mode.
 
 ## Basic Commands
