@@ -103,7 +103,7 @@ Nallix/
 │   └── nalvim.py       # Text editor
 │
 ├── Home/              # User home directories
-│   ├── Lasking/       # User directories
+│   ├── Guest/         # Guest user directories
 │   └── [username]/    # Other user directories
 │       └── home/      # User's home directory (desktop files)
 ```
