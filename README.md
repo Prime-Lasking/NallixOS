@@ -2,28 +2,60 @@
 
 Nallix is a lightweight, Python-based operating system featuring both terminal and desktop interfaces, built-in development tools, file management, and a text editor. It provides a complete computing environment with process management, user sessions, and system utilities.
 
-## Features
+## 🚀 Key Features
 
-- **Operating System Core**
-  - Process management and execution
-  - File system with hierarchical directory structure
-  - User account management and authentication
-  - Persistent sessions and system state
+### 🖥️ Operating System Core
+- **Process Management**
+  - Multi-process execution with priority scheduling
+  - Process isolation and resource allocation
+  - Background process support
+
+- **File System**
+  - Hierarchical directory structure
+  - File permissions and ownership
+  - Symbolic links support
+  - Disk usage monitoring
+
+- **User Management**
+  - Multi-user support with authentication
+  - Role-based access control
+  - Password hashing for security
+  - Session management
+
+- **Terminal & Shell**
   - Custom shell with command history
-  - System resource management
+  - Command auto-completion
+  - Pipes and redirection
+  - Environment variables
+  - Scripting support
 
-- **Desktop Environment**
-  - Modern, customizable desktop interface
-  - Right-click on desktop to access context menu
-  - Double-click files/folders to open them
-  - Create new files/folders from the context menu
-  - Change wallpaper through the context menu
-  - Access terminal and file explorer from desktop icons or start menu with quick access to applications
-  - Right-click context menu for desktop actions
-  - File and folder management through GUI
-  - Wallpaper customization
-  - System tray with clock
-  - Start menu with quick access to applications
+### 🖥️ Desktop Environment
+- **User Interface**
+  - Modern, themeable interface
+  - Customizable desktop layout
+  - Multiple virtual desktops
+  - Window management (minimize, maximize, close)
+  - Drag and drop support
+
+- **File Management**
+  - Graphical file explorer
+  - File operations (copy, move, delete, rename)
+  - File search functionality
+  - Thumbnail previews
+  - Archive handling
+
+- **Customization**
+  - Multiple themes support (light/dark/high contrast)
+  - Custom wallpapers
+  - Icon sets
+  - Font and display settings
+
+- **System Tools**
+  - System monitor
+  - Task manager
+  - Network configuration
+  - Display settings
+  - Power management
 
 - **Integrated Development Tools**
   - Nalvim: Lightweight text editor with vim-like keybindings
@@ -103,7 +135,7 @@ Nallix/
 │   └── nalvim.py       # Text editor
 │
 ├── Home/              # User home directories
-│   ├── Guest/         # Guest user directories
+│   ├── Lasking/       # User directories
 │   └── [username]/    # Other user directories
 │       └── home/      # User's home directory (desktop files)
 ```
