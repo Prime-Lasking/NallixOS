@@ -1,0 +1,2 @@
+Welcome to Nallix Terminal (Guest Mode)
+Type 'help' for available commands
