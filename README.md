@@ -113,8 +113,8 @@ Nallix is a lightweight, Python-based operating system featuring both terminal a
 
 ## Documentation
 
-- [Assemplex Language Reference](./bin/ASSEMPLEX_README.md)
-- [Nalvim Editor Guide](./bin/NALVIM_README.md)
+- [Assemplex Language Reference](ASSEMPLEX_README.md)
+- [Nalvim Editor Guide](NALVIM_README.md)
 
 ## Customization
 
