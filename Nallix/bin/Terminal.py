@@ -159,7 +159,7 @@ def run_nalvim(file_path=None):
         sys.path.insert(0, project_root)
 
     try:
-        from Nallix.Home import nalvim
+        import nalvim
     except ImportError as e:
         print(f"Error: Could not import nalvim from Home.\nDetails: {e}")
         return
@@ -213,16 +213,29 @@ def run_shell():
 
     def print_help():
         print("""Nallix Terminal - Available commands:
-  echo [text]
-  ls / cd / pwd / mkdir / rmdir / del / type / copy / move / cls
-  sudo [command]       - run command as root
-  create user          - create a new user
-  change user          - switch active user
+  echo <text>       - print text to console
+  cd [dir]          - change directory
+  pwd               - print working directory
+  ls                - list directory contents
+  mkdir <dir>       - create a directory
+  rmdir <dir>       - remove a directory
+  rm <file>         - delete a file
+  cat <file>        - display file contents
+  cp <src> <dst>    - copy file
+  mv <src> <dst>    - move/rename file
+  touch <file>      - create an empty file
+  head <file>       - display first 10 lines of file
+  tail <file>       - display last 10 lines of file
+  find <pattern>    - find files matching pattern
+  cls               - clear screen
+  sudo <command>    - run as superuser
+  create user       - create a new user
+  change user       - switch active user
   nalvim [file] / nv [file]
   assemplex [file] / asp [file] - run Assemplex code
-  help                 - show this message
-  log out              - sign out current user and switch to guest
-  exit                 - exit the shell
+  help              - show this message
+  log out           - sign out current user and switch to guest
+  exit              - exit the shell
 """)
 
     while True:
@@ -319,34 +332,84 @@ def run_shell():
 
                 elif cmd in ("del", "rm"):
                     if args:
-                        os.remove(os.path.join(current_dir, args[0]))
+                        try:
+                            path = os.path.join(current_dir, args[0])
+                            if os.path.isfile(path):
+                                os.remove(path)
+                            elif os.path.isdir(path):
+                                shutil.rmtree(path)
+                        except Exception as e:
+                            print(f"rm error: {e}")
 
-                elif cmd == "type":
+                elif cmd == "cat":
                     if args:
                         path = os.path.join(current_dir, args[0])
                         try:
                             with open(path, "r") as f:
-                                print(f.read())
+                                print(f.read(), end='')
                         except Exception as e:
-                            print(f"type error: {e}")
+                            print(f"cat error: {e}")
 
-                elif cmd == "copy":
+                elif cmd == "cp":
                     if len(args) >= 2:
                         src = os.path.join(current_dir, args[0])
                         dst = os.path.join(current_dir, args[1])
                         try:
-                            shutil.copy2(src, dst)
+                            if os.path.isdir(src):
+                                shutil.copytree(src, dst, dirs_exist_ok=True)
+                            else:
+                                shutil.copy2(src, dst)
                         except Exception as e:
-                            print(f"copy error: {e}")
+                            print(f"cp error: {e}")
 
-                elif cmd == "move":
+                elif cmd == "mv":
                     if len(args) >= 2:
                         src = os.path.join(current_dir, args[0])
                         dst = os.path.join(current_dir, args[1])
                         try:
                             shutil.move(src, dst)
                         except Exception as e:
-                            print(f"move error: {e}")
+                            print(f"mv error: {e}")
+
+                elif cmd == "touch":
+                    if args:
+                        try:
+                            with open(os.path.join(current_dir, args[0]), 'a'):
+                                os.utime(os.path.join(current_dir, args[0]), None)
+                        except Exception as e:
+                            print(f"touch error: {e}")
+
+                elif cmd == "head":
+                    if args:
+                        try:
+                            with open(os.path.join(current_dir, args[0]), 'r') as f:
+                                for i, line in enumerate(f):
+                                    if i >= 10:
+                                        break
+                                    print(line, end='')
+                        except Exception as e:
+                            print(f"head error: {e}")
+
+                elif cmd == "tail":
+                    if args:
+                        try:
+                            with open(os.path.join(current_dir, args[0]), 'r') as f:
+                                lines = f.readlines()
+                                for line in lines[-10:]:
+                                    print(line, end='')
+                        except Exception as e:
+                            print(f"tail error: {e}")
+
+                elif cmd == "find":
+                    if args:
+                        pattern = args[0]
+                        try:
+                            for root, dirs, files in os.walk(current_dir):
+                                for name in files + dirs:
+                                    if pattern in name:
+                                        print(os.path.join(root, name)[len(current_dir):].lstrip(os.sep))
+                        except Exception as e:
+                            print(f"find error: {e}")
 
                 elif cmd == "cls":
                     os.system('cls' if os.name == 'nt' else 'clear')
